@@ -43,31 +43,33 @@ public:
         }
         return res;
     }
-    string recursiveMethod(string &num1, int i,string &num2, int j, int carry=0){
+    void recursiveMethod(string &num1, int i,string &num2, int j, int carry, string &ans){
         //base case
         if(i<0 && j<0){
             if(carry!=0){
-                return string(1,carry+'0');
+                // return string(1,carry+'0');
+                ans.push_back(carry+'0');
             }
-            return "";
+            return;
         }
 
-        string res = "";
+        // string res = "";
         int n1 = (i>=0 ? num1[i] : '0') - '0';
         int n2 = (j>=0 ? num2[j] : '0') - '0';
         int sum = n1+n2+carry;
         int digit = sum%10;
         carry = sum/10;
-        res.push_back(digit+'0');
+        ans.push_back(digit+'0');
 
-        res += recursiveMethod(num1, i-1, num2, j-1, carry);
-        return res;
+        recursiveMethod(num1, i-1, num2, j-1, carry,ans);
+        // return res;
     }
     string addStrings(string num1, string num2) {
         // Method 1 ---> using loops
         // return usingLoops(num1, num2); //T.C -> O(Max(N,M))
-        string res = recursiveMethod(num1,num1.length()-1,num2,num2.length()-1);
-        reverse(res.begin(),res.end());
-        return res;
+        string ans = "";
+        recursiveMethod(num1,num1.length()-1,num2,num2.length()-1,0,ans);
+        reverse(ans.begin(),ans.end());
+        return ans;
     }
 };
