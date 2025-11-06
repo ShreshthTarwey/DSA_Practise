@@ -68,7 +68,7 @@ public:
         // Method 1 ---> using loops
         // return usingLoops(num1, num2); //T.C -> O(Max(N,M))
         string ans = "";
-        recursiveMethod(num1,num1.length()-1,num2,num2.length()-1,0,ans);
+        recursiveMethod(num1,num1.length()-1,num2,num2.length()-1,0,ans); //T.C -> O(N), S.C -> O(N)
         reverse(ans.begin(),ans.end());
         return ans;
     }
