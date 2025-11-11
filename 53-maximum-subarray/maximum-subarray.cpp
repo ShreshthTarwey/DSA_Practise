@@ -58,7 +58,7 @@ public:
     }
     int maxSubArray(vector<int>& nums) {
         // return brute(nums);
-        return kadnesAlgo(nums);
+        // return kadnesAlgo(nums);
         return dncMethod(nums, 0, nums.size()-1);
     }
 
