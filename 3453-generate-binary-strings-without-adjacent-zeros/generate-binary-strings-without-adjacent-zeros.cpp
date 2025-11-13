@@ -6,11 +6,15 @@ public:
             ans.push_back(s);
             return;
         }
-        fun(ans, s + '1', n);
+        s.push_back('1');
+        fun(ans, s, n);
+        s.pop_back();
         // int index = s.length() - 1;
 
         if(s.empty() || s.back()!='0'){
-            fun(ans, s+'0', n);
+            s.push_back('0');
+            fun(ans, s, n);
+            s.pop_back();
         }
         
     }
