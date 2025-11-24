@@ -16,10 +16,31 @@ public:
             swap(nums[i],nums[j]);
         }
     }
+    unordered_set<int>st;
+    void solve_method2(vector<int>& nums, vector<int> &temp, vector<vector<int>>& ans){
+        if(temp.size() == nums.size()){
+            ans.push_back(temp);
+            return;
+        }
+        
+
+        for(int i=0;i<nums.size();i++){
+            if(st.find(nums[i])==st.end()){
+                st.insert(nums[i]);
+                temp.push_back(nums[i]);
+                solve_method2(nums, temp, ans);
+                temp.pop_back();
+                st.erase(nums[i]);
+            }
+        }
+
+    }
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>>ans;
         int i = 0;
-        solve(nums,i,ans);
+        // solve(nums,i,ans);
+        vector<int>temp;
+        solve_method2(nums, temp, ans);
         return ans;
     }
 
