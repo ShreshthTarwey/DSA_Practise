@@ -3,6 +3,7 @@ public:
     void backtracking_method(vector<vector<int>>&res,vector<int>&temp,vector<int>&nums,int start_index,int k){
         if(temp.size()==k){
             res.push_back(temp);
+            return;
         }
         for(int i=start_index;i<nums.size();i++){
             temp.push_back(nums[i]);
