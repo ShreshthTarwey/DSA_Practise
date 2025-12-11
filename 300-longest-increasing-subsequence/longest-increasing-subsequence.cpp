@@ -13,9 +13,24 @@ public:
         return dp[index] = maxLength;
     }
     int lengthOfLIS(vector<int>& nums) {
-        int ans = 0; vector<int> dp(nums.size(), -1);
-        for(int i=0;i<nums.size();i++)
-        ans = max(ans, solve(nums, i, dp));
-       return ans;
+    //     int ans = 0; vector<int> dp(nums.size(), -1);
+    //     for(int i=0;i<nums.size();i++)
+    //     ans = max(ans, solve(nums, i, dp));
+    //    return ans;
+
+    //    -------------TABULATION-----------------
+        vector<int>dp (nums.size(), 1);
+        for(int i=1;i<nums.size();i++){
+            int maxNum = 0;
+            for(int j=i-1;j>=0;j--){
+                if(nums[j]<nums[i]){
+                    maxNum = max(dp[j], maxNum);
+                }
+            }
+            dp[i] = 1+maxNum;
+        }
+        return *max_element(dp.begin(), dp.end());
+
+
     }
 };
