@@ -1,6 +1,7 @@
 class Solution {
 public:
-    bool isSafe(vector<vector<char>>& board, char digit,int i, int j){
+
+     bool isSafe(vector<vector<char>>& board, char digit,int i, int j){
         int n = board.size();
         //Checking for row
         for(int k=0;k<n;k++){
@@ -28,40 +29,28 @@ public:
 
         return true;
     }
-    bool solve(vector<vector<char>>& board){
-        //Base Case ???
+    bool backtrackingMethod(vector<vector<char>>& board){
+        int n = board.size();
+        for(int row=0;row<n;row++){
+            for(int col=0;col<n;col++){
+                if(board[row][col] == '.'){
+                    for(int i=1;i<=9;i++){
+                        if(isSafe(board, i+'0', row,col)){
+                            board[row][col] = i+'0';
+                            bool aageSolveHua = backtrackingMethod(board);
 
+                            if(aageSolveHua) return true;
 
-        //1 Case solve krr rhe hai
-        for(int i=0;i<board.size();i++){
-            for(int j=0;j<board[0].size();j++){
-                //Kya current cell empty hai?
-                if(board[i][j] == '.'){
-                    //1 -> 9 digits place krr kai dekho
-                    for(int k=1;k<=9;k++){
-                        if(isSafe(board,k + '0',i,j)){
-                            board[i][j] = k+'0';
-                            bool aageSolveHoPaya = solve(board);
-
-                            if(aageSolveHoPaya){
-                                return true;
-                            }
-                            else{
-                                //BackTrack
-                                board[i][j] = '.';
-                            }
+                            else board[row][col] = '.';
                         }
                     }
-                    //Agar koi digit nhi satisfy krr paiy to matlab pahale kuch galti hui hai to false return kro
                     return false;
                 }
             }
         }
-
-        //Agar yaha tkk pauch gaye hai toh matlab sari cells fill hoo gai and pura sudoku solve hoo gaya 
         return true;
     }
     void solveSudoku(vector<vector<char>>& board) {
-        solve(board);
+        backtrackingMethod(board);
     }
 };
