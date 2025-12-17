@@ -8,7 +8,17 @@ public:
         return dp[index] = max(pick, notPick);
     }
     int rob(vector<int>& nums) {
-        vector<int>dp(nums.size()+1, -1);
-        return recurFun(nums, 0, dp);
+        // vector<int>dp(nums.size()+1, -1);
+        // return recurFun(nums, 0, dp); //Memoization -----------------------------------------
+        //Tabulation -------------------------------------------
+        vector<int>dp(nums.size()+2, 0);
+        for(int i=nums.size()-1;i>=0;i--){
+            int pick = nums[i] + dp[i+2];
+            int notPick = dp[i+1];
+            dp[i] = max(pick, notPick);   
+        }
+
+        return dp[0];
+
     }
 };
