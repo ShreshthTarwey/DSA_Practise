@@ -1,1 +1,1 @@
-<h2>longest-increasing-subsequence Notes</h2><hr>[ Time taken: 13 m 54 s ]
+<h2>longest-increasing-subsequence Notes</h2><hr>[ Time taken: 10 m 57 s ]
