@@ -1,36 +1,26 @@
 class Solution {
 public:
     int solve(vector<int>& nums, int index, vector<int>& dp){
-        if(index<0) return 0;
-        if(dp[index] != -1) return dp[index];
-        int maxLength = 1;
-        for(int j=index-1;j>=0;j--){
-            if(nums[j]<nums[index]){
-                int l = 1 + solve(nums, j, dp);
+
+        if(index>=nums.size()) return 0;
+        if(dp[index]!=-1) return dp[index];
+        int maxLength =1 ;
+        for(int i = index; i<nums.size();i++){
+            if(nums[index]<nums[i]){
+                int l = 1 + solve(nums, i, dp);
                 maxLength = max(maxLength, l);
             }
+            
         }
-        return dp[index] = maxLength;
+
+        return dp[index] =  maxLength;
     }
     int lengthOfLIS(vector<int>& nums) {
-    //     int ans = 0; vector<int> dp(nums.size(), -1);
-    //     for(int i=0;i<nums.size();i++)
-    //     ans = max(ans, solve(nums, i, dp));
-    //    return ans;
-
-    //    -------------TABULATION-----------------
-        vector<int>dp (nums.size(), 1);
-        for(int i=1;i<nums.size();i++){
-            int maxNum = 0;
-            for(int j=i-1;j>=0;j--){
-                if(nums[j]<nums[i]){
-                    maxNum = max(dp[j], maxNum);
-                }
-            }
-            dp[i] = 1+maxNum;
+        int ans = 0;
+        vector<int>dp(nums.size(), -1);
+        for(int i=0;i<nums.size();i++){
+            ans = max(ans, solve(nums, i, dp));
         }
-        return *max_element(dp.begin(), dp.end());
-
-
+        return ans;
     }
 };
