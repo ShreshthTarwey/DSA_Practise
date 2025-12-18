@@ -1,60 +1,25 @@
 class Solution {
 public:
-    int solve(string &a, string &b, int i, int j){
-        //Base Case
-        if(i>=a.length()){
-            return b.length() - j;
-        }
-        if(j>=b.length()){
-            return a.length() - i;
-        }
-
-        int ans = 0;
-
-        //match
-        if(a[i] == b[j]){
-            i++;
-            j++;
-            ans = solve(a,b,i,j);
+    int recFun(string &word1, string &word2, int i, int j, vector<vector<int>>& dp){
+        //BC
+        if(j>=word2.length()) return word1.length() - i;
+        if(i>=word1.length()) return word2.length() - j;
+        if(dp[i][j] != -1) return dp[i][j];
+        if(word1[i] == word2[j]){
+            return recFun(word1, word2, i+1, j+1, dp);
         }
 
-        //Not match
+        int insert = 1 + recFun(word1, word2, i, j+1, dp);
 
-        else{
-            //insert
-            //i wale kai pahale insert krr dia, but i whi rhega
-            int option1 = 1 + solve(a,b,i,j+1);
-            //remove
-            int option2 = 1 + solve(a,b,i+1,j);
+        int del = 1 + recFun(word1, word2, i+1, j, dp);
 
-            //replace
-            int option3 = 1 + solve(a,b,i+1,j+1);
+        int replace = 1 + recFun(word1, word2, i+1, j+1, dp);
 
-            ans = min(option1,min(option2,option3));
-        }
-        return ans;
-
+        return dp[i][j] = min(insert, min(del, replace));
     }
     int minDistance(string word1, string word2) {
-        // vector<int>dp(word1.length(), vector<int>(word2.length(), -1));
-        // return solve(word1, word2, 0, 0, dp);
-
-        // -------------------------------TSBULSTION-----------------------------------
-
-        int m = word1.length(); int n  = word2.length();
-        if(m==0) return n; if(n==0) return m;
-
-        int a[m+1][n+1];
-        for(int j=0;j<=n;j++) a[0][j] = j;
-        for(int i=0;i<=m;i++) a[i][0] = i;
-        for(int i=1;i<=m;i++){
-            for(int j=1;j<=n;j++){
-                if(word1[i-1]==word2[j-1]) a[i][j] = a[i-1][j-1];
-                else a[i][j] = 1+min(a[i][j-1], min(a[i-1][j] , a[i-1][j-1]));
-            }
-        }
-        return a[m][n];
-
-
+        //Memoization
+        vector<vector<int>>dp(word1.length(), vector<int>(word2.length(), -1));
+        return recFun(word1, word2, 0, 0, dp);
     }
 };
