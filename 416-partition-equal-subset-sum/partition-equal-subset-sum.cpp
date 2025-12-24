@@ -10,11 +10,31 @@ public:
     }
     bool canPartition(vector<int>& nums) {
         int sum = accumulate(nums.begin(), nums.end(), 0);
-        if((sum&1)==0){
-            vector<vector<int>>dp(nums.size()+1, vector<int>(sum+1, -1));
-        return recFun(nums, 0, sum/2, 0, dp);
-        }
+        // if((sum&1)==0){
+        //     vector<vector<int>>dp(nums.size()+1, vector<int>(sum+1, -1));
+        // return recFun(nums, 0, sum/2, 0, dp);
+        // }
         
-        return false;
+        // return false;
+
+
+        //TABULASIATION----------------------------------------------------------------------------------------------------------------
+        if((sum&1)!=0) return false;
+
+        vector<vector<int>>dp(nums.size()+1, vector<int>(sum+1, 0));
+        for(int i=0;i<=nums.size();i++){
+            dp[i][(sum/2)] = 1;
+        }
+
+        for(int i=nums.size()-1;i>=0;i--){
+            for(int j=sum;j>=0;j--){
+                bool pick = false;
+                if(j+nums[i]<=sum)
+                    pick = dp[i+1][j+nums[i]];
+                bool notPick = dp[i+1][j];
+                dp[i][j] = (pick || notPick);
+            }
+        }
+        return dp[0][0];
     }
 };
