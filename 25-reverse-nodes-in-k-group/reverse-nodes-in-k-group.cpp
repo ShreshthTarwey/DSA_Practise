@@ -19,7 +19,7 @@ public:
         }
         return count;
     }
-    ListNode* reverseKGroup(ListNode* head, int k) {
+    ListNode* reverseKGroup(ListNode* head, int k) { //T.C->O(N^2/k) to make it O(N), remove calling getLength Function alwasys send one Length variable and keep subtracting it in every recursion call keep substracting it
         //Base Cases
         if(!head) return NULL;
         if(!head->next) return head;
