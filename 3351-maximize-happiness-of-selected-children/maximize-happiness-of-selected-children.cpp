@@ -7,14 +7,10 @@ public:
         int index = 0;
         for(int i=0;i<k;i++){
             if(happiness[index] == 0){
-                index++;
-                k--;
-                continue;
+                break;
             }
             if(happiness[index]-decNum<=0){
-                index++;
-                k--;
-                continue;
+                break;
             }
             sum+=happiness[index]-decNum;
             happiness[index] = 0;
