@@ -6,16 +6,14 @@ public:
         long long sum = 0;
         int index = 0;
         for(int i=0;i<k;i++){
-            if(happiness[index] == 0){
+            if(happiness[index] == 0 || happiness[index]-i<=0){
                 break;
             }
-            if(happiness[index]-decNum<=0){
-                break;
-            }
-            sum+=happiness[index]-decNum;
+            
+            sum+=happiness[index]-i;
             happiness[index] = 0;
             index++;
-            decNum++;
+            // decNum++;
         }
         return sum;
 
