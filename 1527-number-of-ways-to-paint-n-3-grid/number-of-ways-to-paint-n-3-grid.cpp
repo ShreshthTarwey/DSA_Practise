@@ -72,8 +72,22 @@ public:
         }
         return result % M;
     }
+    int mostOptimizedWay(int n, vector<int>& dp){
+        if(n<=0) return 0;
+        if(dp[n] != -1) return dp[n];
+        if(n==1) return 12;
+        if(n==2) return 54;
+
+        long long term1 = (5LL * mostOptimizedWay(n-1, dp)) % M;
+        long long term2 = (2LL * mostOptimizedWay(n-2, dp)) % M;
+
+        return dp[n] = (term1 - term2 + M) % M;
+
+    }
     int numOfWays(int n) {
         // return bruteForceMyMethod(n);
-        return optimizedDpMethod(n);
+        // return optimizedDpMethod(n); //Very good approach
+        vector<int>dp(5001, -1);
+        return mostOptimizedWay(n, dp); //Using observed recurence relation f(n) = 5(f(n-1)) - 2(f(n-2))
     }
 };
