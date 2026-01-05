@@ -1,27 +1,34 @@
 class Solution {
 public:
-    bool isPrime(int n){
-        if(n<=1) return false;
-        if(n<=3) return true;
-        if(n%2==0 || n%3==0) return false;
-        for(int i=5;i*i<=n;i+=6){
-            if((n%i)==0 || n%(i+2)==0) return false;
+    void sieve(int n, vector<int>& primes){
+        vector<int>isPrime(n+1, true);
+        isPrime[0] = isPrime[1] = false;
+        for(int i=2;i*i<=n;i++){
+            for(int j=i*i;j<=n;j+=i){
+                isPrime[j] = false;
+            }
         }
-        return true;
+        for(int i=0;i<isPrime.size();i++){
+            if(isPrime[i]){
+                primes.push_back(i);
+            }
+        }
     }
     bool primeSubOperation(vector<int>& nums) {
-        int prev = 0,i;
-        for(int num : nums){
-            int maxn = num-prev;
-            int maxprime = 0;
-            for(int i=maxn-1;i>=2;i--){
-                if(isPrime(i)){
-                    maxprime = i;
+        vector<int>primes;
+        sieve(1000, primes);
+        int prev = 0;
+        for(int i=0;i<nums.size();i++){
+            // int diff = nums[i] - prev;
+            for(int j=primes.size()-1;j>=0;j--){
+                if(nums[i]-primes[j]>prev){
+                    nums[i] = nums[i] - primes[j];
+                    // prev = nums[i];
                     break;
                 }
             }
-            if(num-maxprime <= prev) return false;
-            prev = num-maxprime;
+            if(nums[i]<=prev) return false;
+            prev = nums[i];
         }
         return true;
     }
