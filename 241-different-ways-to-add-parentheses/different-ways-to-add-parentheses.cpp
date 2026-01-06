@@ -1,21 +1,34 @@
 class Solution {
 public:
-    vector<int> diffWaysToCompute(string exp) {
-        vector<int> res;
-        for (int i = 0; i < exp.length(); i++) {
-            if (exp[i] == '+' || exp[i] == '-' || exp[i] == '*') {
-                vector<int> left= diffWaysToCompute(exp.substr(0,i));
-                vector<int> right = diffWaysToCompute(exp.substr(i+1));
-                for(int x: left){
-                    for(int y : right){
-                        if(exp[i] == '+') res.push_back(x+y);
-                        if(exp[i] == '-') res.push_back(x-y);
-                        if(exp[i] == '*') res.push_back(x*y);
+    vector<int> solve(string s){
+        vector<int>result;
+        for(int i=0;i<s.length();i++){
+            if(s[i]=='-' || s[i] == '+' || s[i] == '*'){
+                vector<int>leftResult = solve(s.substr(0, i));
+                vector<int>rightResult = solve(s.substr(i+1));
+
+                for(auto it: leftResult){
+                    for(auto jt: rightResult){
+                        if(s[i]=='-'){
+                            result.push_back(it-jt);
+                        }
+                        else if(s[i]=='+'){
+                            result.push_back(it+jt);
+                        }
+                        else{
+                            result.push_back(it*jt);
+                        }
                     }
                 }
+                
             }
         }
-        if(res.empty()) res.push_back(stoi(exp));
-        return res;
+        if(result.empty()){
+                    result.push_back(stoi(s));
+                }
+                return result;
+    }
+    vector<int> diffWaysToCompute(string expression) {
+        return solve(expression);
     }
 };
