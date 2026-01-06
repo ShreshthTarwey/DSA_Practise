@@ -9,9 +9,10 @@ public:
         }
 
         string pick = solve(mp, str+'0', n);
+        if(!pick.empty()) return pick;
         string notPick = solve(mp, str+'1', n);
-        if(pick.empty()) return notPick;
-        return pick;
+        // if(pick.empty()) return notPick;
+        return notPick;
     }
     string findDifferentBinaryString(vector<string>& nums) {
         unordered_map<string, int>mp;
