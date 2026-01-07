@@ -16,7 +16,10 @@ public:
     int MOD = 1e9+7;
     int totalSum(TreeNode* root){
         if(!root) return 0;
-        return root->val + totalSum(root->left) + totalSum(root->right);
+        int subTreeSum = root->val + totalSum(root->left) + totalSum(root->right);
+        maxP = max(maxP,(SUM-subTreeSum)* subTreeSum);
+        // return 0;
+        return subTreeSum;
     }
 
     int find(TreeNode* root){
@@ -29,7 +32,7 @@ public:
 
     int maxProduct(TreeNode* root) {
        SUM =  totalSum(root);
-       find(root);
+       totalSum(root);
        return maxP % MOD;
     }
 };
