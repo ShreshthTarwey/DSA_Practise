@@ -69,13 +69,26 @@ public:
             return recFun(root->right);
         }
     }
+    TreeNode* LCAapplication(TreeNode* root, int depth, int currDepth){
+        if(!root) return NULL;
+        if(currDepth == depth) return root;
+        TreeNode* left = LCAapplication(root->left, depth, currDepth+1);
+        TreeNode* right = LCAapplication(root->right, depth, currDepth+1);
+
+        if(left && right) return root;
+        if(left) return left;
+        return right;
+    }
     TreeNode* subtreeWithAllDeepest(TreeNode* root) {
-        // int depth = maxDepth(root);
+        int depth = maxDepth(root);
         // cout<<depth;
         // return root;
         // unordered_map<TreeNode*, bool>mp;
         // fillMap(root, mp, depth, 1);
         // return recFun(root, mp, depth, 1);
-        return recFun(root);
+
+        // return recFun(root); //O(N^2)
+        return LCAapplication(root, depth, 1);
+
     }
 };
