@@ -17,23 +17,51 @@ public:
             }
         }
 
+        //Normal Method -----------------------------------------------------------
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<m;j++){
+        //         //ofset
+        //         for(int k=ans;k<min(n-i,m-j);k++){
+        //             int row = i+k;
+        //             int col = j+k;
+        //             int sum = findSum(i,j,row,col,prefixSum);
+        //             if(sum<=threshold){
+        //                 ans = max(ans,k+1);
+        //             }
+        //             else{
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+        // return ans;
 
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                //ofset
-                for(int k=ans;k<min(n-i,m-j);k++){
-                    int row = i+k;
-                    int col = j+k;
-                    int sum = findSum(i,j,row,col,prefixSum);
-                    if(sum<=threshold){
-                        ans = max(ans,k+1);
-                    }
-                    else{
-                        break;
+        //Binary Search Method ---------------------------------------------
+        auto check = [&](int side){
+            for(int i=0;i+side-1<n;i++){
+                for(int j = 0;j+side-1<m;j++){
+                    int r = i + side -1 ;
+                    int c = j+ side -1;
+                    if(findSum(i,j,r,c, prefixSum)<=threshold){
+                        return true;
                     }
                 }
             }
+            return false;
+        };
+        int l = 1;
+        int h = min(n,m);
+        int best = 0;
+        while(l<=h){
+            int mid = l + (h-l)/2;
+            if(check(mid)){
+                best = max(best, mid);
+                l = mid+1;
+            }
+            else{
+                h = mid-1;
+            }
         }
-        return ans;
+        return best;
     }
 };
