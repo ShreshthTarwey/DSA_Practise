@@ -28,6 +28,9 @@ public:
                     if(sum<=threshold){
                         ans = max(ans,k+1);
                     }
+                    else{
+                        break;
+                    }
                 }
             }
         }
