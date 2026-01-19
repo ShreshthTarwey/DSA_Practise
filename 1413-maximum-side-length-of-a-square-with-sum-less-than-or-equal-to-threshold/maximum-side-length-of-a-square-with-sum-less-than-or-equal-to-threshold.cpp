@@ -21,7 +21,7 @@ public:
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 //ofset
-                for(int k=0;k<min(n-i,m-j);k++){
+                for(int k=ans;k<min(n-i,m-j);k++){
                     int row = i+k;
                     int col = j+k;
                     int sum = findSum(i,j,row,col,prefixSum);
