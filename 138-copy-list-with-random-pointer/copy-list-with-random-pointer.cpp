@@ -16,7 +16,7 @@ public:
 
 class Solution {
 public:
-    Node* copyRandomList(Node* head) {
+    Node* method1(Node* head){
         unordered_map<Node*, Node*>mp;
         Node* dummy = new Node(0);
         Node* tailNew = dummy;
@@ -43,5 +43,9 @@ public:
             newNode = newNode->next;
         }
         return dummy->next;
+    }
+    Node* copyRandomList(Node* head) {
+        return method1(head); //O(n) T.C, O(n) S.C
+        // return spaceOptimizedMethod(head);
     }
 };
