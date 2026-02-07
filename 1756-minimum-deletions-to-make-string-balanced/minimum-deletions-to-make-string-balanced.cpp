@@ -42,7 +42,7 @@ public:
     }
     int method3Prefix(string s){
         vector<int>leftbCount(s.length(), 0);
-        vector<int>rightaCount(s.length(), 0);
+        // vector<int>rightaCount(s.length(), 0);
         int bCount = 0;
         for(int i=0;i<s.length();i++){
             leftbCount[i] = bCount;
@@ -51,16 +51,16 @@ public:
             }
         }
         int aCount = 0;
+        int minAns = INT_MAX;
         for(int i=s.length()-1;i>=0;i--){
-            rightaCount[i] = aCount;
+            // rightaCount[i] = aCount;
+            minAns = min(minAns, aCount+leftbCount[i]);
             if(s[i] == 'a'){
                 aCount++;
             }
         }  
-        int minAns = INT_MAX;
-        for(int i=0;i<s.length();i++){
-            minAns = min(minAns, rightaCount[i]+leftbCount[i]);
-        }
+        // for(int i=0;i<s.length();i++){
+        // }
         return minAns;
     }
     int minimumDeletions(string s) {
@@ -68,7 +68,8 @@ public:
         // return recFun(s, 0, "", dp); //Cannot Apply DP here, and it was giving TLE, in recursion
 
         // return method2Stack(s); //T.C->O(n), S.C-> O(n)
-        return method3Prefix(s);
+        return method3Prefix(s); //Normally T.C->O(n), S.C->O(2n), but optimized space so T.C->O(n), S.C->O(n)
+
 
         
     }
