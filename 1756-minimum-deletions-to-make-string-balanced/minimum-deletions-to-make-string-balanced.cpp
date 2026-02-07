@@ -63,14 +63,34 @@ public:
         // }
         return minAns;
     }
+    int method4FullSpaceOptimized(string s){
+        int right_a = 0;
+        int left_b = 0;
+        for(auto it:s){
+            if(it == 'a') right_a++;
+            // else left_b++;
+        }
+
+        int minAns = INT_MAX;
+        for(int i=0;i<s.length();i++){
+            if(s[i]=='a'){
+                right_a--;
+            }
+            minAns = min(minAns, right_a+left_b);
+            if(s[i]=='b'){
+                left_b++;
+            }
+        }
+        return minAns;
+    }
     int minimumDeletions(string s) {
         // vector<int>dp(s.length(), -1);
         // return recFun(s, 0, "", dp); //Cannot Apply DP here, and it was giving TLE, in recursion
 
         // return method2Stack(s); //T.C->O(n), S.C-> O(n)
-        return method3Prefix(s); //Normally T.C->O(n), S.C->O(2n), but optimized space so T.C->O(n), S.C->O(n)
+        // return method3Prefix(s); //Normally T.C->O(n), S.C->O(2n), but optimized space so T.C->O(n), S.C->O(n)
 
-
+        return method4FullSpaceOptimized(s);
         
     }
 };
