@@ -18,18 +18,7 @@ public:
         nums.push_back(root->val);
         recFun(root->right, nums);
     }
-    bool isValidBST(TreeNode* root) {
-        // if(!root) return true;
-        // if(root->left && root->left->val>=root->val){
-        //     return false;
-        // }
-        // if(root->right && root->right->val<=root->val){
-        //     return false;
-        // }
-        // bool left = isValidBST(root->left);
-        // bool right = isValidBST(root->right);
-
-        // return (left && right);
+    bool inOrderMethod(TreeNode* root){
         vector<int>nums;
         recFun(root, nums);
         // vector<int>nums2 = nums;
@@ -41,5 +30,13 @@ public:
             }
         }
         return true;
+    }
+    bool isValidBST(TreeNode* root, long long minm = LLONG_MIN, long long maxm = LLONG_MAX) {
+        // return inOrderMethod(root);
+        if(!root) return true;
+
+        if(root->val>=maxm || root->val<=minm) return false;
+
+        return isValidBST(root->left, minm, root->val) && isValidBST(root->right, root->val, maxm);
     }
 };
