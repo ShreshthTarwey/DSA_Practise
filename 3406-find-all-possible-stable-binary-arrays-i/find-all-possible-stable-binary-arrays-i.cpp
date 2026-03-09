@@ -1,0 +1,60 @@
+class Solution {
+public:
+    int mainLimit;
+    const int MOD = 1e9+7;
+    int recFun(int last, int zero, int one, int limit, vector<vector<vector<vector<int>>>>& dp){
+        //Base Case
+        if(zero==0  && one==0){
+            return 1;
+        }
+        int lastIndex = last;
+        if(last!=-1 && dp[zero][one][lastIndex][limit]!=-1) return dp[zero][one][lastIndex][limit];
+        int originalLimit = limit;
+        bool canPickZero = true;
+        bool canPickOne = true;
+        if(limit==0){
+            if(last==0){
+                canPickZero = false;
+            }
+            else{
+                canPickOne = false;
+            }
+            limit = mainLimit;
+        }
+        int opt1 = 0;
+        int opt2 = 0;
+        if(canPickZero && zero>0){
+            int zeroLimit = limit;
+            if(last == -1 || last== 0){
+                zeroLimit = limit-1;
+            }
+            else{
+                zeroLimit = mainLimit-1;
+            }
+            opt1 = recFun(0, zero-1, one, zeroLimit, dp);
+        }
+        if(canPickOne && one>0){
+            int oneLimit = limit;
+            if(last == -1 || last == 1){
+                oneLimit = limit-1;
+            }
+            else{
+                oneLimit = mainLimit-1;
+            }
+            // str+='1';
+            opt2 = recFun(1, zero, one-1, oneLimit, dp);
+            // str.pop_back();
+        }
+        int ans = (opt1+opt2)%MOD;
+        if(last != -1)
+            dp[zero][one][last][originalLimit] = ans;
+        return ans;
+
+    }
+    int numberOfStableArrays(int zero, int one, int limit) {
+        mainLimit = limit;
+        string str = "";
+        vector<vector<vector<vector<int>>>>dp(zero+1, vector<vector<vector<int>>>(one+1, vector<vector<int>>(2, vector<int>(limit+1, -1))));
+        return recFun(-1, zero, one, limit, dp);
+    }
+};
