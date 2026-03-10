@@ -75,9 +75,35 @@ public:
         // vector<vector<vector<vector<int>>>>dp(zero+1, vector<vector<vector<int>>>(one+1, vector<vector<int>>(2, vector<int>(limit+1, -1))));
         // return recFun(-1, zero, one, limit, dp);
         //---------------------------------------------Youtube Method---------------------------
-        vector<vector<vector<int>>>dp(zero+1, vector<vector<int>>(one+1, vector<int>(2, -1)));
-        int sumStartWithZero = solve(zero, one, false, limit, dp);
-        int sumStartWithOne = solve(zero, one, true, limit, dp);
-        return (sumStartWithZero + sumStartWithOne)%MOD;
+        // vector<vector<vector<int>>>dp(zero+1, vector<vector<int>>(one+1, vector<int>(2, -1)));
+        // int sumStartWithZero = solve(zero, one, false, limit, dp);
+        // int sumStartWithOne = solve(zero, one, true, limit, dp);
+        // return (sumStartWithZero + sumStartWithOne)%MOD;
+
+        //Tabulation--------------------------------------------------------
+        vector<vector<vector<int>>>dp(zero+1, vector<vector<int>>(one+1, vector<int>(2, 0)));
+        //Base Case
+        dp[0][0][0] = 1;
+        dp[0][0][1] = 1;
+        for(int i=0;i<=one;i++){
+            for(int j=0;j<=zero;j++){
+                if(i==0 && j==0){
+                    continue;
+                }
+                long long result = 0;
+                for(int k=1;k<=min(i, limit);k++){
+                    result = (result + dp[j][i-k][0]) % MOD;
+                }
+                dp[j][i][1] = result;
+                result = 0;
+                for(int k=1;k<=min(j, limit);k++){
+                     result = (result + dp[j-k][i][1]) % MOD;
+                }
+                dp[j][i][0] = result;
+            }
+        }
+        int a = dp[zero][one][0]%MOD;
+        int b = dp[zero][one][1]%MOD;
+        return (a+b)%MOD;
     }
 };
