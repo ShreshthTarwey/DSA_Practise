@@ -51,10 +51,33 @@ public:
         return ans;
 
     }
+    int solve(int zero, int one, bool flag, int limit, vector<vector<vector<int>>>& dp){
+        if(zero==0 && one==0){
+            return 1;
+        }
+        if(dp[zero][one][flag]!=-1) return dp[zero][one][flag];
+        long long result = 0;
+        if(flag){
+            for(int i=1;i<=min(zero, limit);i++){
+                result += solve(zero-i, one, false, limit, dp)%MOD;
+            }
+        }
+        else{
+            for(int i=1;i<=min(one, limit);i++){
+                result += solve(zero, one-i, true, limit, dp)%MOD;
+            }
+        }
+        return dp[zero][one][flag] = result%MOD;
+    }
     int numberOfStableArrays(int zero, int one, int limit) {
-        mainLimit = limit;
-        string str = "";
-        vector<vector<vector<vector<int>>>>dp(zero+1, vector<vector<vector<int>>>(one+1, vector<vector<int>>(2, vector<int>(limit+1, -1))));
-        return recFun(-1, zero, one, limit, dp);
+        // mainLimit = limit;
+        // string str = "";
+        // vector<vector<vector<vector<int>>>>dp(zero+1, vector<vector<vector<int>>>(one+1, vector<vector<int>>(2, vector<int>(limit+1, -1))));
+        // return recFun(-1, zero, one, limit, dp);
+        //---------------------------------------------Youtube Method---------------------------
+        vector<vector<vector<int>>>dp(zero+1, vector<vector<int>>(one+1, vector<int>(2, -1)));
+        int sumStartWithZero = solve(zero, one, false, limit, dp);
+        int sumStartWithOne = solve(zero, one, true, limit, dp);
+        return (sumStartWithZero + sumStartWithOne)%MOD;
     }
 };
