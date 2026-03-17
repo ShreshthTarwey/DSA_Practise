@@ -57,7 +57,10 @@ public:
                 }
             }
             sort(temp.begin(), temp.end(), greater<int>());
-            area = max(area, maxAreaHistogram(temp));
+            // area = max(area, maxAreaHistogram(temp));//Since array is sorted so no need of this function
+            for(int j=0;j<m;j++){
+                area = max(area, temp[j] * (j+1));
+            }
         }
         return area;
     }
