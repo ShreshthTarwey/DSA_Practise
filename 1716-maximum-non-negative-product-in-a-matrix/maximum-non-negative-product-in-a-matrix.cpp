@@ -27,12 +27,37 @@ public:
     int maxProductPath(vector<vector<int>>& grid) {
         int n = grid.size();
         int m = grid[0].size();
-        pair<ll, ll>p = {-5, -5};
-        vector<vector<pair<ll,ll>>>dp(n, vector<pair<ll, ll>>(m, p));
-        auto it = recFun(grid, 0, 0, dp);
-        // return (it.first<0 ? -1 : it.first);
-        if(it.first<0) return -1;
+        // pair<ll, ll>p = {-5, -5};
+        // vector<vector<pair<ll,ll>>>dp(n, vector<pair<ll, ll>>(m, p));
+        // auto it = recFun(grid, 0, 0, dp);
+        // // return (it.first<0 ? -1 : it.first);
+        // if(it.first<0) return -1;
         const int MOD = 1e9+7;
-        return it.first % MOD;
+        // return it.first % MOD;
+        // ------------------------------------------------TABULATION------------------------------------------------
+        pair<ll, ll>p = {0, 0};
+        vector<vector<pair<ll, ll>>>dp(n+1, vector<pair<ll, ll>>(m+1, p));
+        dp[n-1][m-1] = {grid[n-1][m-1], grid[n-1][m-1]};
+        for(int i=n-1;i>=0;i--){
+            for(int j=m-1;j>=0;j--){
+                if(i==n-1 && j==m-1) continue;
+                ll minVal = LLONG_MAX;
+                ll maxVal = LLONG_MIN;
+                if(i+1<n){
+                    auto it = dp[i+1][j];
+                    maxVal = max({maxVal, grid[i][j] * it.first, grid[i][j] * it.second});
+                    minVal = min({minVal, grid[i][j] * it.second, grid[i][j] * it.first});
+                }
+                if(j+1<m){
+                    auto it = dp[i][j+1];
+                    maxVal = max({maxVal, grid[i][j] * it.second, grid[i][j] * it.first});
+                    minVal = min({minVal, grid[i][j] * it.first, grid[i][j] * it.second});
+                }
+                dp[i][j] = {maxVal, minVal};
+            }
+        }
+        if(dp[0][0].first<0) return -1;
+        return dp[0][0].first % MOD; 
+
     }
 };
