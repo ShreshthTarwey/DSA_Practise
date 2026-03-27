@@ -20,7 +20,7 @@ public:
             arr[0] = temp;
         }
     }
-    bool areSimilar(vector<vector<int>>& mat, int k) {
+    bool method1(vector<vector<int>>& mat, int k){
         int n = mat.size();
         int m = mat[0].size();
         int noOfRotations = k%m;
@@ -35,5 +35,31 @@ public:
             if(mat[i] != temp[i]) return false;
         }
         return true;
+    }
+    bool method2(vector<vector<int>>& mat, int k){
+        int n = mat.size();
+        int m = mat[0].size();
+        k = k%m;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(i%2==0){
+                    int fut = (j+k)%m;
+                    if(mat[i][j] != mat[i][fut]){
+                        return false;
+                    }
+                }
+                else{
+                    int fut = (j-k+m)%m;
+                    if(mat[i][j] != mat[i][fut]){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    bool areSimilar(vector<vector<int>>& mat, int k) {
+        // return method1(mat, k); //T.C-> O(n*m), S.C->O(n*m)
+        return method2(mat, k); //T.C-> O(n*m), S.C->O(1)
     }
 };
