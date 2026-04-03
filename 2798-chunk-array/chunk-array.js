@@ -1,0 +1,21 @@
+/**
+ * @param {Array} arr
+ * @param {number} size
+ * @return {Array}
+ */
+var chunk = function(arr, size) {
+    let res = [];
+    let idx = 0;
+    let temp = [];
+    for(let i=0;i<arr.length;i++){
+        temp.push(arr[i]);
+        if(temp.length === size){
+            res.push(temp);
+            temp = [];
+        }
+    }
+    if(temp.length>0){
+        res.push(temp);
+    }
+    return res;
+};
