@@ -1,6 +1,6 @@
 class Solution {
 public:
-    string decodeCiphertext(string encodedText, int rows) {
+    string method1(string &encodedText, int rows){
         int n = rows;
         if(encodedText.empty()) return "";
         int m = encodedText.length()/rows;
@@ -34,6 +34,23 @@ public:
             res+=temp[i];
         }
         return res;
+    }
+    string method2(string &encodedText, int rows){
+        string original = "";
+        int col = encodedText.length()/rows;
+        for(int j = 0;j<col;j++){
+            for(int i=j;i<encodedText.length();i += (col+1)){
+                original += encodedText[i];
+            }
+        }
+        while(!original.empty() && original.back() == ' '){
+            original.pop_back();
+        }
+        return original;
+    }
+    string decodeCiphertext(string encodedText, int rows) {
+        // return method1(encodedText, rows);//T.C-> O(m*n), S.C->O(m*n)
 
+        return method2(encodedText, rows);
     }
 };
