@@ -24,13 +24,15 @@ public:
             adjList[it[0]].push_back(it[1]);
         }
         for(int i=0;i<numCourses;i++){
-            if(dfs(i, adjList, visited, pathVisited)){
+            if(!visited[i])
+                if(dfs(i, adjList, visited, pathVisited)){
                 return false;
-            }
+                }
         }
         return true;
     }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        return method1(numCourses, prerequisites);
+        return method1(numCourses, prerequisites); //DFS on Directed Graph
+
     }
 };
