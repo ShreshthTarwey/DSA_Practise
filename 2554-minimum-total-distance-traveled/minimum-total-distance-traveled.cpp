@@ -22,7 +22,20 @@ public:
             }
         }
         sort(fac.begin(), fac.end());
-        vector<vector<long long>>dp(robot.size(), vector<long long>(fac.size(), -1));
-        return recFun(robot, fac, 0, 0, dp);
+        // vector<vector<long long>>dp(robot.size(), vector<long long>(fac.size(), -1));
+        // return recFun(robot, fac, 0, 0, dp);
+        //Tabulation method-------------------------------------------------------------------
+        vector<vector<long long>>dp(robot.size()+1, vector<long long>(fac.size()+1, 0));
+        for(int i=0;i<robot.size();i++){
+            dp[i][fac.size()] = 1e18;
+        }
+        for(int i=robot.size()-1;i>=0;i--){
+            for(int j=fac.size()-1;j>=0;j--){
+                long long take = abs(robot[i] - fac[j]) + dp[i+1][j+1];
+                long long skip = dp[i][j+1];
+                dp[i][j] = min(take, skip);
+            }
+        }
+        return dp[0][0];
     }
 };
