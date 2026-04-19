@@ -14,8 +14,8 @@ public:
         }
         return ans;
     }
-    int maxDistance(vector<int>& nums1, vector<int>& nums2) {
-        int ans = INT_MIN;
+    int binarySearchMethod(vector<int>&nums1, vector<int>&nums2){
+                int ans = INT_MIN;
         int n = nums1.size();
         int m = nums2.size();
         for(int i=0;i<n;i++){
@@ -26,5 +26,27 @@ public:
             }
         }
         return ans == INT_MIN ? 0 : ans;
+    }
+    int twoPointer(vector<int>& nums1, vector<int>& nums2){
+        int i=0;
+        int j=0;
+        int ans = INT_MIN;
+        while(i<nums1.size() && j<nums2.size()){
+            if(i > j){
+                j=i;
+            }
+            if(nums1[i]>nums2[j]){
+                i++;
+            }
+            else{
+                ans = max(ans, abs(j-i));
+                j++;
+            }
+        }
+        return ans == INT_MIN ? 0 : ans;
+    }
+    int maxDistance(vector<int>& nums1, vector<int>& nums2) {
+        // return binarySearchMethod(nums1, nums2); //T.C-> nlogn
+        return twoPointer(nums1, nums2);
     }
 };
