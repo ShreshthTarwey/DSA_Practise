@@ -11,35 +11,36 @@
 class Solution {
 public:
     int getLength(ListNode* head){
-        int length = 0;
+        int count = 0;
         ListNode* temp = head;
         while(temp){
+            count++;
             temp = temp->next;
-            length++;
         }
-        return length;
+        return count;
     }
     ListNode* rotateRight(ListNode* head, int k) {
-        ListNode* temp = head;
         int len = getLength(head);
-        // cout<<len<<" ";
-        if(len==0) return NULL;
-        int noOfRotations = k%len;
-        if(noOfRotations == 0) return head;
-        int counter = 1;
-        while(counter<len-noOfRotations && temp){
+        // cout<<len;
+        // return head;
+        if(!head || !head->next || !k) return head;
+        k = k%len;
+        if(k==0) return head;
+        int target = len - k - 1;
+        ListNode* newTail = head;
+        ListNode* temp = head;
+        int count = 0;
+        while(temp && count<target){
             temp = temp->next;
-            counter++;
+            count++;
         }
         ListNode* newHead = temp->next;
         temp->next = NULL;
-        ListNode* newTail = NULL;
-        ListNode* temp2 = newHead;
-        while(temp2->next){
-            temp2 = temp2->next;
+        ListNode* tail = newHead;
+        while(tail->next){
+            tail = tail->next;
         }
-        newTail = temp2;
-        newTail->next = head;
+        tail->next = head;
         return newHead;
     }
 };
