@@ -13,7 +13,7 @@ public:
         int l = 0;
         int r = 1e9;
         int result = 0;
-        sort(tasks.begin(), tasks.end(), [](auto task1, auto task2){
+        sort(tasks.begin(), tasks.end(), [](auto &task1, auto &task2){
             int diff1 = task1[1] - task1[0];
             int diff2 = task2[1] - task2[0];
             return diff1 > diff2;
