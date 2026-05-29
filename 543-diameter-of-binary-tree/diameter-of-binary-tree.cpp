@@ -11,18 +11,16 @@
  */
 class Solution {
 public:
-    int recFun(TreeNode* root, int &dia){
-        if(!root) return NULL;
-        int left_val = recFun(root->left, dia);
-        int right_val = recFun(root->right, dia);
-
-        dia = max(dia, left_val + right_val);
-
-        return 1 + max(left_val, right_val);
+    int recFun(TreeNode* root, int &ans){
+        if(!root) return 0;
+        int left = recFun(root->left, ans);
+        int right = recFun(root->right, ans);
+        ans = max(ans, left + right);
+        return 1 + max(left, right);
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        int dia = 0;
-        recFun(root, dia);
-        return dia;
+        int ans = 0;
+        recFun(root, ans);
+        return ans;
     }
 };
