@@ -19,7 +19,6 @@ public:
         int right = recFun(root->right, flag);
         if(abs(left-right)>=2) flag = false;
         return 1 + max(left, right);
-
     }
     bool isBalanced(TreeNode* root) {
         bool flag = true;
