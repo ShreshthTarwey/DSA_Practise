@@ -12,31 +12,21 @@
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        TreeNode* curr = root;
         vector<int>ans;
-        while(curr){
-            //Does Curr have a left child
-            //Find the IP, Inorder Predecesor
-            if(curr->left){
-                TreeNode* IP = curr->left;
-                while(IP->right  && IP->right!=curr){
-                    IP = IP->right;
-                }
-                if(IP->right == NULL){
-                    //Create a sudo LINK
-                    IP->right = curr;
-                    curr = curr->left;
-                }
-                else{
-                    //Print the curr and delete link and move to right
-                    ans.push_back(curr->val);
-                    IP->right = NULL;
-                    curr = curr->right;
-                }
+        stack<TreeNode*>st;
+        TreeNode* node = root;
+        // ans.push_back(root->data);
+        while(true){
+            if(node != NULL){
+                st.push(node);
+                node = node->left;
             }
             else{
-                ans.push_back(curr->val);
-                curr = curr->right;
+                if(st.empty()) break;
+                node = st.top();
+                ans.push_back(node->val);
+                st.pop();
+                node = node->right;
             }
         }
         return ans;
