@@ -1,54 +1,32 @@
-class DSU{
-    public:
-    vector<int>parent;
-    vector<int>rank;
-    int components;
-    DSU(int n){
-        parent.resize(n);
-        rank.resize(n, 0);
-        for(int i=0;i<n;i++){
-            parent[i] = i;
-        }
-        components = n;
-    }
-    int find(int x){
-        if(parent[x] != x){
-            parent[x]  = find(parent[x]);
-        }
-        return parent[x];
-    }
-    void unionByRank(int x, int y){
-        int parent_a = find(x);
-        int parent_b = find(y);
-        if(parent_a != parent_b){
-            if(rank[parent_a]>rank[parent_b]){
-                parent[parent_b] = parent_a;
-            }
-            else if(rank[parent_b]>rank[parent_a]){
-                parent[parent_a]  = parent_b;
-            }
-            else{
-                parent[parent_b] = parent_a;
-                rank[parent_a]++;
-            }
-            components--;
-        }
-    }
-    int getComponents(){
-        return components;
-    }
-};
-
 class Solution {
 public:
+    void dfs(vector<vector<int>>& adjList, int idx, vector<bool>& visited){
+        if(visited[idx]) return;
+        visited[idx] = true;
+        for(auto &it: adjList[idx]){
+            dfs(adjList, it, visited);
+        }
+    }
     int findCircleNum(vector<vector<int>>& isConnected) {
-        DSU dsu(isConnected.size());
-        for(int i=0;i<isConnected.size();i++){
-            for(int j=0;j<isConnected[i].size();j++){
-                if(isConnected[i][j])
-                    dsu.unionByRank(i, j);
+        int n = isConnected.size();
+        vector<vector<int>>adjList(n);
+        vector<bool>visited(n, false);
+        int count = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(isConnected[i][j]){
+                    adjList[i].push_back(j);
+                    adjList[j].push_back(i);
+                }
             }
         }
-        return dsu.getComponents();
+        for(int i=0;i<n;i++){
+            if(!visited[i]){
+                // visited[i] = true;
+                dfs(adjList, i, visited);
+                count++;
+            }
+        }
+        return count;
     }
 };
