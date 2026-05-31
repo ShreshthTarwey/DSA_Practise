@@ -36,9 +36,9 @@ class DSU{
 };
 class Solution {
 public:
-    int kruskals(vector<vector<int>>& vec){
+    int kruskals(vector<vector<int>>& vec, vector<vector<int>>& points){
         int n = vec.size();
-        DSU dsu(n);
+        DSU dsu(points.size());
         int sum = 0;
         for(int i=0;i<n;i++){
             int u = vec[i][0];
@@ -56,7 +56,7 @@ public:
         for(int i=0;i<points.size();i++){
             int xi = points[i][0];
             int yi = points[i][1];
-            for(int j=0;j<points.size();j++){
+            for(int j=i+1;j<points.size();j++){
                 int xj = points[j][0];
                 int yj = points[j][1];
                 vec.push_back({i, j, (abs(xi - xj) + abs(yi - yj))});
@@ -66,6 +66,6 @@ public:
             return v1[2] < v2[2];
         };
         sort(vec.begin(), vec.end(), comparator);
-        return kruskals(vec);
+        return kruskals(vec, points);
     }
 };
