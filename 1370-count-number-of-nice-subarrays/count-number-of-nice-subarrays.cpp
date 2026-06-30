@@ -9,10 +9,10 @@ public:
             if(it%2!=0){
                 oddCount++;
             }
-            mp[oddCount]++;
             if(mp.find(oddCount - k) != mp.end()){
                 ans += mp[oddCount - k];
             }
+            mp[oddCount]++;
         }
         return ans;
     }
