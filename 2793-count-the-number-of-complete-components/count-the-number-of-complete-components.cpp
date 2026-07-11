@@ -35,45 +35,74 @@ class DSU{
 class Solution {
 public:
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
-        DSU dsu(n);
         vector<vector<int>>adjList(n);
         for(auto &it: edges){
-            dsu.unionByRank(it[0], it[1]);
+            // dsu.unionByRank(it[0], it[1]);
             adjList[it[0]].push_back(it[1]);
             adjList[it[1]].push_back(it[0]);
         }
-        unordered_map<int, vector<int>>mp;
-        for(int i=0;i<n;i++){
-            int root = dsu.find(i);
-            mp[root].push_back(i);
-        }
-        int ans = 0;
-        //Doing BFS from every parent
         vector<bool>visited(n, false);
-        for(auto &it: mp){
-            int root = it.first;
-            visited[root] = true;
-            int edgeCount = 0;
-            int m = it.second.size();
-            //Doing BFS from parent
-            queue<int>q;
-            q.push(root);
-            int count = 0;
-            while(!q.empty()){
-                int node = q.front();
-                q.pop();
-                for(auto &it: adjList[node]){
-                    if(!visited[it]){
-                        visited[it] = true;
-                        q.push(it);
+        int ans = 0;
+        //Using Disjoint Set Union------------------------> Method 1
+        // DSU dsu(n);
+        // unordered_map<int, vector<int>>mp;
+        // for(int i=0;i<n;i++){
+        //     int root = dsu.find(i);
+        //     mp[root].push_back(i);
+        // }
+        // //Doing BFS from every parent
+        // for(auto &it: mp){
+        //     int root = it.first;
+        //     visited[root] = true;
+        //     int edgeCount = 0;
+        //     int m = it.second.size();
+        //     //Doing BFS from parent
+        //     queue<int>q;
+        //     q.push(root);
+        //     int count = 0;
+        //     while(!q.empty()){
+        //         int node = q.front();
+        //         q.pop();
+        //         for(auto &it: adjList[node]){
+        //             if(!visited[it]){
+        //                 visited[it] = true;
+        //                 q.push(it);
+        //             }
+        //             count++;
+        //         }
+        //     }
+        //     if(count/2 == (m * (m-1)/2)){
+        //         ans++;
+        //     }
+        // }
+        // return ans;
+
+        //Method 2--------------------------------------->BFS
+        for(int i=0;i<n;i++){
+            if(!visited[i]){
+                visited[i] = true;
+                queue<int>q;
+                q.push(i);
+                int count = 0;
+                int m = 0;
+                while(!q.empty()){
+                    int node = q.front();
+                    m++;
+                    q.pop();
+                    for(auto &it: adjList[node]){
+                        count++;
+                        if(!visited[it]){
+                            q.push(it);
+                            visited[it] = true;
+                        }
                     }
-                    count++;
                 }
-            }
-            if(count/2 == (m * (m-1)/2)){
-                ans++;
+                if(count/2 == (m*(m-1)/2)){
+                    ans++;
+                }
             }
         }
         return ans;
+
     }
 };
