@@ -34,6 +34,17 @@ class DSU{
 };
 class Solution {
 public:
+    void dfs(vector<vector<int>>& adjList, vector<bool>& visited, int node, int &count, int &m){
+        visited[node] = true;
+        m++;
+        for(auto &it: adjList[node]){
+            count++;
+            if(!visited[it]){
+                dfs(adjList, visited, it, count, m);
+            }
+        }
+
+    }
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
         vector<vector<int>>adjList(n);
         for(auto &it: edges){
@@ -78,29 +89,44 @@ public:
         // return ans;
 
         //Method 2--------------------------------------->BFS
+        // for(int i=0;i<n;i++){
+        //     if(!visited[i]){
+        //         visited[i] = true;
+        //         queue<int>q;
+        //         q.push(i);
+        //         int count = 0;
+        //         int m = 0;
+        //         while(!q.empty()){
+        //             int node = q.front();
+        //             m++;
+        //             q.pop();
+        //             for(auto &it: adjList[node]){
+        //                 count++;
+        //                 if(!visited[it]){
+        //                     q.push(it);
+        //                     visited[it] = true;
+        //                 }
+        //             }
+        //         }
+        //         if(count/2 == (m*(m-1)/2)){
+        //             ans++;
+        //         }
+        //     }
+        // }
+        // return ans;
+
+        //Method 3---------------------------------->DFS
         for(int i=0;i<n;i++){
+            int count = 0;
+            int m = 0;
             if(!visited[i]){
                 visited[i] = true;
-                queue<int>q;
-                q.push(i);
-                int count = 0;
-                int m = 0;
-                while(!q.empty()){
-                    int node = q.front();
-                    m++;
-                    q.pop();
-                    for(auto &it: adjList[node]){
-                        count++;
-                        if(!visited[it]){
-                            q.push(it);
-                            visited[it] = true;
-                        }
-                    }
-                }
+                dfs(adjList, visited, i, count, m);
                 if(count/2 == (m*(m-1)/2)){
                     ans++;
                 }
             }
+
         }
         return ans;
 
