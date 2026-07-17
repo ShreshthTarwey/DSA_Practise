@@ -38,7 +38,7 @@ public:
             int temp = 1;
             while(l<=r){
                 int mid_gcd = l + (r-l)/2;
-                if(prefix[mid_gcd]>x){
+                if(prefix[mid_gcd]>=x+1){
                     temp = mid_gcd;
                     r = mid_gcd-1;
                 }
