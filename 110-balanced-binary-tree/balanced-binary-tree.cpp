@@ -12,12 +12,12 @@
 class Solution {
 public:
     int recFun(TreeNode* root, bool &flag){
-        if(!root){
-            return 0;
-        }
+        if(!root) return 0;
         int left = recFun(root->left, flag);
         int right = recFun(root->right, flag);
-        if(abs(left-right)>=2) flag = false;
+        if(abs(left-right)>1){
+            flag = false;
+        }
         return 1 + max(left, right);
     }
     bool isBalanced(TreeNode* root) {
