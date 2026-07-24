@@ -1,25 +1,32 @@
 class Solution {
 public:
     int uniqueXorTriplets(vector<int>& nums) {
-        // vector<int>pairXor;
-        unordered_set<int>st;
+        int maxEle = *max_element(nums.begin(), nums.end());
+        int limit = 1;
+        while (limit <= maxEle) {
+            limit <<= 1;
+        }
+        vector<bool> pairXor(limit, false);
         int n = nums.size();
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                int val = nums[i] ^ nums[j];
-                if(!st.contains(val)){
-                    st.insert(val);
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                pairXor[nums[i] ^ nums[j]] = true;
+            }
+        }
+        vector<bool> tripleXor(limit, false);
+        for (int i = 0; i < limit; i++) {
+            if (pairXor[i]) {
+                for (int x : nums) {
+                    tripleXor[i ^ x] = true;
                 }
-                // pairXor.push_back(val);
             }
         }
-        unordered_map<int, int>mp;
-        for(int i=0;i<n;i++){
-            for(int j : st){
-                int val = j ^ nums[i];
-                mp[val]++;
+        int count = 0;
+        for (int val = 0; val < limit; val++) {
+            if (tripleXor[val]) {
+                count++;
             }
         }
-        return mp.size();
+        return count;
     }
 };
